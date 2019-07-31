@@ -8,16 +8,33 @@ hospitaldata <- read.csv(unz(temp, "outcome-of-care-measures.csv"), colClasses =
 unlink(temp)
 dateDownloaded <- date()
 
-#histogram of mortality rates
+#histogram of heart attack mortality rates
 head(hospitaldata)
-hospitaldata[, 11] <- as.numeric(hospitaldata[, 11])
-mortalityrates <- hospitaldata[, 11]
-g = ggplot(hospitaldata, aes(x = mortalityrates))
-g = g + geom_histogram()
-g = g + labs(x = "30-Day Mortality Rates from Heart Attack")
-g = g + facet_wrap(.~ hospitaldata[, 7])
-g
+hospitaldata[, 11] = as.numeric(hospitaldata[, 11])
+hattackrate = hospitaldata[, 11]
+h = ggplot(hospitaldata, aes(x = hattackrate))
+h = h + geom_histogram()
+h = h + labs(x = "30-Day Mortality Rates from Heart Attack")
+h = h + facet_wrap(.~ hospitaldata[, 7])
+h
 
+#boxplot of heart failure mortality rates
+hospitaldata[, 17] = as.numeric(hospitaldata[, 17])
+hfailrate = hospitaldata[, 17]
+b = ggplot(hospitaldata, aes(x = hospitaldata[, 7], y = hfailrate))
+b = b + geom_boxplot()
+b = b + labs(x = "State", 
+             y = "30-Day Mortality Rates from Heart Failure")
+b
+
+#violin plot of pneumonia mortality rates
+hospitaldata[, 23] = as.numeric(hospitaldata[, 23])
+pneumorate = hospitaldata[, 23]
+p = ggplot(hospitaldata, aes(x = hospitaldata[, 7], y = pneumorate))
+p = p + geom_violin()
+p = p + labs(x = "State",
+             y = "30-Day Mortality Rates from Pneumonia")
+p
 
 #function for best hospital in a state
 best <- function(state, outcome) {
