@@ -1,13 +1,14 @@
 library(Biobase)
 library(MatrixEQTL)
 
+#extract files from MatrixEQTL
 base.dir = find.package("MatrixEQTL")
 SNP_file_name = paste(base.dir, "/data/SNP.txt", sep = "")
 expression_file_name = paste(base.dir, "/data/GE.txt", sep = "")
 covariates_file_name = paste(base.dir, "/data/Covariates.txt", sep = "")
 outputfile_name = tempfile()
 
-#read in files
+#read in expression, snps, and covariates files
 expr = read.table(expression_file_name, sep = "\t", header = TRUE, row.names = 1)
 snps = read.table(SNP_file_name, sep = "\t", header = TRUE, row.names = 1)
 cvrt = read.table(covariates_file_name, sep = "\t", header = TRUE, row.names = 1)
@@ -19,12 +20,12 @@ useModel = modelLINEAR
 
 #genotype data
 snps = SlicedData$new()
-snps$fileDelimiter = "\t"
-snps$fileOmitCharacters = "NA"
-snps$fileSkipRows = 1
-snps$fileSkipColumns = 1
-snps$fileSliceSize = 1000
-snps$LoadFile(SNP_file_name) 
+snps$fileDelimiter = "\t"               #the TAB character 
+snps$fileOmitCharacters = "NA"          #denote missing values
+snps$fileSkipRows = 1                   #1 row of column labels
+snps$fileSkipColumns = 1                #1 row of row labels
+snps$fileSliceSize = 1000               #read file in pieces of 1000 rows
+snps$LoadFile(SNP_file_name)            
 
 #repeat for expression data
 gene = SlicedData$new()
@@ -53,6 +54,6 @@ eqtlmat = Matrix_eQTL_engine(
           noFDRsaveMemory = FALSE)
 
 #analysis
-plot(eqtlmat)
-eqtlmat$all$eqtls
+plot(eqtlmat)      #histogram of all p-values
+eqtlmat$all$eqtls     #values that passed significance threshold
 
