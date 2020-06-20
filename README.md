@@ -1,4 +1,4 @@
-# Coursera Code Samples
+# Bioconductor Code Samples
 Experimental code for genomic data science in R. Exploratory analysis of hospital data, gene set analysis of bottomly dataset, eQTL analysis of MatrixEQTL data, and DESeq2 analysis of zebrafish RNA-Seq data.
 
 ## Getting Started
